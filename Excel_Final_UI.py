@@ -2,8 +2,48 @@ from flask import Flask, render_template, request, send_file
 from io import BytesIO
 import pandas as pd
 from pybliometrics.scopus import ScopusSearch, SerialTitle
+import re
 
 app = Flask(__name__)
+
+def extract_percentile(rank):
+    if isinstance(rank, list):
+        rank_text = str(rank[0])
+    else:
+        rank_text = str(rank)
+
+    matches = re.findall(r'percentile=(\d+)', rank_text)
+    return matches[0] if matches else None
+
+def get_authors_info(publication):
+    authors = getattr(publication, 'authors', None) or getattr(publication, 'author_ids', None)
+    if authors:
+        if isinstance(authors, list):
+            return "; ".join(f"Scopus Author ID - {author.auid}" for author in authors)
+        else:
+            return f"Scopus Author ID - {authors}"
+    else:
+        return ""
+
+def get_publication_year(publication):
+    if hasattr(publication, 'coverDate'):
+        return publication.coverDate.split('-')[0]
+    else:
+        return 'N/A'
+
+def citation_count_to_text(citation_count):
+    if pd.notna(citation_count):
+        return f"{citation_count:,}"  # Format as text with commas
+    else:
+        return 'N/A'
+
+def calculate_citation_points(citation_count):
+    if pd.notna(citation_count) and int(citation_count.replace(',', '')) > 5:
+        return 10
+    elif pd.notna(citation_count) and int(citation_count.replace(',', '')) <= 5:
+        return 8
+    else:
+        return 'N/A'
 
 def export_publications_to_excel(scopus_author_id):
     search = ScopusSearch(f"AU-ID({scopus_author_id})")
