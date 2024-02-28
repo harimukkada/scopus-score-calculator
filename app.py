@@ -105,12 +105,12 @@ def export_publications_to_excel(scopus_author_id):
 
     # Additional column for marks with updated conditions
     df['Marks'] = df.apply(lambda row: 
-        50 if row['Percentile'] is not None and int(row['Percentile']) >= 90 else
-        25 if row['Percentile'] is not None and 75 <= int(row['Percentile']) <= 89 else
-        12.5 if row['Percentile'] is not None and 50 <= int(row['Percentile']) <= 74 else
-        10 if row['Percentile'] is not None and int(row['Percentile']) < 50 else
-        pd.notna(row['Citation Point']) and row['Citation Point'] or 'N/A',
-        axis=1
+         50 if row['Percentile'] is not None and int(row['Percentile']) >= 90 else
+         25 if row['Percentile'] is not None and 75 <= int(row['Percentile']) <= 89 else
+         12.5 if row['Percentile'] is not None and 50 <= int(row['Percentile']) <= 74 else
+         10 if row['Percentile'] is not None and int(row['Percentile']) < 50 else
+         pd.notna(row['Citation Point']) and row['Citation Point'] or 'N/A',
+         axis=1
     )
 
     # Fill N/A values in the "Marks" column with values from "Citation Point" column
@@ -118,10 +118,10 @@ def export_publications_to_excel(scopus_author_id):
 
     # Additional column for quartile based on marks
     df['Quartile'] = df['Marks'].apply(lambda x: 
-        'Q1' if x == 50 else
-        'Q2' if x == 25 else
-        'Q3' if x == 12.5 else
-        'Q4' if x == 10 else ''
+         'Q1' if x == 50 else
+         'Q2' if x == 25 else
+         'Q3' if x == 12.5 else
+         'Q4' if x == 10 else ''
     )
 
     # Additional column for mark pool based on Scopus_Author_ID_Position
@@ -135,8 +135,8 @@ def export_publications_to_excel(scopus_author_id):
 
     # Additional column for total points based on the provided formula
     df['Total Points'] = df.apply(lambda row: 
-        row['Marks'] * row['Mark Pool'] / row['Co Authors'] if pd.notna(row['Marks']) and pd.notna(row['Mark Pool']) and row['Co Authors'] > 0 else 'N/A',
-        axis=1
+         row['Marks'] * row['Mark Pool'] / row['Co Authors'] if pd.notna(row['Marks']) and pd.notna(row['Mark Pool']) and row['Co Authors'] > 0 else 'N/A',
+         axis=1
     )
 
     # Save the DataFrame to Excel
