@@ -3,6 +3,9 @@
 
 
 
+
+
+
 The Scopus Publication Data Exporter is a Flask-based web application designed to simplify the extraction and exportation of publication data associated with Scopus author IDs. This tool leverages the Pybliometrics library to access the Scopus database and retrieve comprehensive publication details, enabling researchers and academics to efficiently organize and analyze their scholarly output.
 
 ## Features
