@@ -36,6 +36,6 @@ Special thanks to the developers of Flask, Pybliometrics, and pandas for their e
 
 
 ## Contact 📫
-For any inquiries or feedback, please contact hariavailablehere@gmail.com.com.
+For any inquiries or feedback, please contact hariavailablehere@gmail.com
 
 Enjoy exploring and analyzing your publication data with the Scopus Publication Data Exporter! 🚩
